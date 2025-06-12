@@ -75,7 +75,7 @@ const Dashboard = () => {
             </div>
 
             {/* Top Cards */}
-            <div className="grid grid-cols-4 gap-4 mb-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                 <div className="bg-teal-100 rounded-xl p-4 shadow text-center text-teal-600">
                     <h2 className="text-xl font-bold">Total Recharges</h2>
                     <p className="text-4xl font-bold">18,300</p>

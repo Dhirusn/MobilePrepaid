@@ -30,11 +30,11 @@ const ChargingOptions = ({ title }: { title: string }) => {
             <h2 className="text-2xl md:text-5xl font-bold text-pink-700 mb-10">
                 {title}
             </h2>
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-6 max-w-6xl">
+            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-6 max-w-full md:max-w-6xl border-red-700">
                 {chargingOptions.map((item, idx) => (
                     <div key={idx}
-                        className={"w-44 h-44 rounded-full flex flex-col items-center justify-center text-center border-4 border-pink-700 px-2 py-2 cursor-pointer"}>
-                        <div className="w-38 h-38 rounded-full flex flex-col items-center justify-center text-center text-pink-400 border-2 border-pink-600 hover:bg-pink-500 hover:text-white group">
+                        className={"w-44 h-44 rounded-full flex flex-col items-center justify-center text-center border-0 md:border-4 border-pink-700 px-2 py-2 cursor-pointer"}>
+                        <div key={idx} className="w-38 h-38 rounded-full flex flex-col items-center justify-center text-center text-pink-400 border-2 border-pink-600 hover:bg-pink-500 hover:text-white group">
                             <span className="font-bold text-3xl text-pink-700 group-hover:text-white">
                                 {item.euro} Euro
                             </span>

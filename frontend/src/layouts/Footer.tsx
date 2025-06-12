@@ -4,7 +4,7 @@ const Footer = () => {
         <footer className="bg-gray-100 text-gray-800 text-sm py-10 px-6">
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
                 {/* Left Side - Logo */}
-                <div className="flex flex-col items-start">
+                <div className="flex flex-col items-center md:items-start w-full">
                     <div className="flex items-center">
                         <LogoIcon />
                         <span className="text-4xl font-bold">cartela.info</span>
@@ -12,7 +12,7 @@ const Footer = () => {
                 </div>
 
                 {/* Center Links */}
-                <div className="flex gap-12 flex-wrap text-lg">
+                <div className="flex gap-2 md:gap-12 flex-wrap text-sm md:text-lg w-full">
                     <div className="flex flex-col gap-2">
                         <a href="#" className="hover:underline">FAQ</a>
                         <a href="#" className="hover:underline">How do I Recharge & Pay?</a>
@@ -28,7 +28,7 @@ const Footer = () => {
             </div>
 
             {/* Bottom Notice */}
-            <div className="text-center text-gray-500 text-lg mt-8 px-4">
+            <div className="text-center text-gray-500 text-sm md:text-lg mt-8 px-4">
                 <p>Cartela.info is an independent service and is not affiliated with other resellers.</p>
                 <p className="mt-1">Copyright © 2025 cartela.info. All rights reserved.</p>
             </div>

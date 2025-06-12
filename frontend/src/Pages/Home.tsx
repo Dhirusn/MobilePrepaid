@@ -14,14 +14,14 @@ const Home = () => {
                 <div className="px-6 md:px-16 pt-20 pb-16 grid md:grid-cols-2 items-center gap-10">
                     <div>
                         <div className="flex flex-col items-start mb-8">
-                            <div className="flex items-center">
+                            <div className="items-center hidden md:flex">
                                 <LogoIcon />
                                 <span className="text-6xl font-bold">cartela.info</span>
                             </div>
                         </div>
-                        <h1 className="text-3xl font-bold mb-1">Recharge your PrePay card</h1>
-                        <p className="text-3xl font-bold mb-1">Recharge your card online.</p>
-                        <p className="text-3xl font-bold mb-1">Instantly, without an account.</p>
+                        <h1 className="text-xl md:text-3xl font-bold mb-1">Recharge your PrePay card</h1>
+                        <p className="text-xl md:text-3xl font-bold mb-1">Recharge your card online.</p>
+                        <p className="text-xl md:text-3xl font-bold mb-1">Instantly, without an account.</p>
                         <div className="flex gap-3 mt-6">
                             <img src="https://res.cloudinary.com/djcni3ioh/image/upload/v1749622398/Freelancer/MobilePrepaid/visa-E8j765w__o3wmsk.webp" alt="Visa" className="w-16" />
                             <img src="https://res.cloudinary.com/djcni3ioh/image/upload/v1749622397/Freelancer/MobilePrepaid/mastercard-B8CIIhPs_iys73m.webp" alt="MasterCard" className="w-16" />
@@ -30,7 +30,7 @@ const Home = () => {
                     </div>
 
                     {/* Mobile Recharge Box */}
-                    <div className="border-2 border-white max-w-xs mx-auto rounded-[30px] p-1 bg-black">
+                    <div className="border-2 border-white w-full md:max-w-xs mx-auto rounded-[30px] p-1 bg-black">
                         <div className="text-black rounded-[30px] w-full max-w-xs mx-auto shadow-md border-2 border-black bg-[#5300ef]">
                             <div className="flex items-center mb-5 text-white w-full p-2 ml-3">
                                 <BatteryCharging size={32} />
@@ -111,7 +111,7 @@ const Home = () => {
 
             {/* Info Steps Section */}
             <div className="bg-black text-white text-center py-12">
-                <h2 className="text-5xl font-bold mb-8">Recharge your PrePay card now</h2>
+                <h2 className="text-2xl md:text-5xl font-bold mb-8">Recharge your PrePay card now</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-18 max-w-5xl mx-auto px-6">
                     <div className="flex flex-col items-center text-center">
                         <img className="h-28 sm:h-52 mb-6" src="https://res.cloudinary.com/djcni3ioh/image/upload/v1749621982/Freelancer/MobilePrepaid/step1-ABdtiOld_1_fh4eii.png" />
