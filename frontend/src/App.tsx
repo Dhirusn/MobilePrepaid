@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 import Home from "./Pages/Home";
 import Navbar from "./layouts/Navbar";
 import Footer from "./layouts/Footer";
+import CreditTransfer from "./Pages/CreditTransfer";
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/credit-transfer" element={<CreditTransfer />} />
       </Routes>
       <Footer />
     </Router>

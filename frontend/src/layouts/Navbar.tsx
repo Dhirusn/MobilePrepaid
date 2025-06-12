@@ -1,10 +1,13 @@
-
+import { Link } from "react-router-dom"
 const Navbar = () => {
     return (
-        <nav className="w-full text-white py-4 px-8 flex justify-between items-center text-sm font-medium relative bg-[#5300ef] text-white">
+        <nav className="w-full text-white py-4 px-8 flex justify-between items-center text-sm font-medium relative bg-[#5300ef]">
             <div className="text-2xl font-bold tracking-wide">cartela.info</div>
             <ul className="hidden md:flex gap-6">
-                <li>Home</li>
+                <Link to={"/"}>
+                    <li>Home</li>
+                </Link>
+
 
                 <li className="relative group">
                     <span className="cursor-pointer">Operators</span>
@@ -24,7 +27,9 @@ const Navbar = () => {
                         <li><a className="block px-4 py-2 hover:bg-gray-300">Telekom</a></li>
                     </ul>
                 </li>
-                <li>Credit Transfer</li>
+                <Link to={"/credit-transfer"}>
+                    <li>Credit Transfer</li>
+                </Link>
                 <li>International Cards</li>
                 <li>Gold</li>
                 <li>Numbers</li>
