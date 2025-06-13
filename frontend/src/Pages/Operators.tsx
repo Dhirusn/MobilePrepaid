@@ -1,15 +1,27 @@
-import { BatteryCharging } from "lucide-react";
-import ChargingOptions from "../components/ChargingOptions";
+import { BatteryCharging } from "lucide-react"
+import { LogoIcon } from "./Home"
 import { useState } from "react";
+import ChargingOptions from "../components/ChargingOptions";
+import { useParams } from "react-router-dom";
 
-
-const Home = () => {
+const Operators = () => {
     const [mobile, setMobile] = useState();
     const [amount, setAmount] = useState();
+    const { opt } = useParams();
+
+    const bgColor =
+        opt === "Orange"
+            ? "bg-orange-500"
+            : opt === "Vodafone"
+                ? "bg-red-600"
+                : opt === "Telekom"
+                    ? "bg-purple-700"
+                    : "bg-gray-500";
+
     return (
         <div className="min-h-screen bg-black text-white font-sans border">
             {/* Hero Section */}
-            <div className="bg-[#5300ef] text-white">
+            <div className={`${bgColor} text-white`}>
 
                 <div className="px-6 md:px-16 pt-20 pb-16 grid md:grid-cols-2 items-center gap-10">
                     <div>
@@ -109,40 +121,11 @@ const Home = () => {
                 </div>
             </div>
 
-            {/* Info Steps Section */}
-            <div className="bg-black text-white text-center py-12">
-                <h2 className="text-2xl md:text-5xl font-bold mb-8">Recharge your PrePay card now</h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-18 max-w-5xl mx-auto px-6">
-                    <div className="flex flex-col items-center text-center">
-                        <img className="h-28 sm:h-52 mb-6" src="https://res.cloudinary.com/djcni3ioh/image/upload/v1749621982/Freelancer/MobilePrepaid/step1-ABdtiOld_1_fh4eii.png" />
-                        <h3 className="text-xl sm:text-4xl text-gray-100 mt-3 mb-3 ">
-                            ENTER NUMBER
-                        </h3>
-                    </div>
-                    <div className="flex flex-col items-center text-center">
-                        <img className="h-28 sm:h-52 mb-6" src="https://res.cloudinary.com/djcni3ioh/image/upload/v1749621982/Freelancer/MobilePrepaid/step2-DsgWATYM_ojwmev.webp" />
-                        <h3 className="text-xl sm:text-4xl text-gray-100 mt-3 mb-3 ">
-                            CHOOSE AMOUNT
-                        </h3>
-                    </div>
-                    <div className="flex flex-col items-center text-center">
-                        <img className="h-28 sm:h-52 mb-6" src="https://res.cloudinary.com/djcni3ioh/image/upload/v1749622279/Freelancer/MobilePrepaid/step3-BzMfwEr-_bdss75.png" />
-                        <h3 className="text-xl sm:text-4xl text-gray-100 mt-3 mb-3 ">
-                            CHECK THE DATA
-                        </h3>
-                    </div>
-                    <div className="flex flex-col items-center text-center">
-                        <img className="h-28 sm:h-52 mb-6" src="https://res.cloudinary.com/djcni3ioh/image/upload/v1749621981/Freelancer/MobilePrepaid/step4-DrNogxlb_ucl5le.webp" />
-                        <h3 className="text-xl sm:text-4xl text-gray-100 mt-3 mb-3 ">
-                            PAY
-                        </h3>
-                    </div>
-                </div>
-            </div>
+
 
             {/* Charging Sections */}
             <ChargingOptions
-                title="Telekom Charging"
+                title={opt!}
                 titleTextColor="pink-700"
                 itemTextColor="pink-700"
                 itemTextHoverColor="white"
@@ -150,58 +133,9 @@ const Home = () => {
                 mainBorderColorValue="red-700"
                 midBorderColorValue="pink-700"
                 bgColorValue="pink-500"
-
-            />
-            <ChargingOptions
-                title="Orange Charging"
-                titleTextColor="pink-500"
-                itemTextColor="red-700"
-                itemTextHoverColor=""
-                midTextColor="pink-700"
-                mainBorderColorValue=""
-                midBorderColorValue=""
-                bgColorValue=""
-            />
-            <ChargingOptions
-                title="Vodafone Charging"
-                titleTextColor="pink-500"
-                itemTextColor="red-700"
-                itemTextHoverColor=""
-                midTextColor="pink-700"
-                mainBorderColorValue=""
-                midBorderColorValue=""
-                bgColorValue=""
             />
         </div>
     )
 }
 
-export default Home
-
-
-export const LogoIcon = () => {
-    return (
-        <div className="w-24 mr-2">
-            <svg viewBox="0 0 72 54" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="27" cy="3" r="3" fill="#FFFFFF" />
-                <circle cx="39" cy="3" r="3" fill="#FFFFFF" />
-                <circle cx="51" cy="3" r="3" fill="#FFFFFF" />
-                <circle cx="15" cy="15" r="3" fill="#FFFFFF" />
-                <circle cx="27" cy="15" r="3" fill="#FFFFFF" />
-                <circle cx="39" cy="15" r="3" fill="#FFFFFF" />
-                <circle cx="3" cy="27" r="3" fill="#FFFFFF" />
-                <circle cx="15" cy="27" r="3" fill="#FFFFFF" />
-                <circle cx="27" cy="27" r="3" fill="#FFFFFF" />
-                <circle cx="39" cy="27" r="3" fill="#FFFFFF" />
-                <circle cx="51" cy="27" r="4" fill="#FFFFFF" />
-                <circle cx="63" cy="27" r="3" fill="#FFFFFF" />
-                <circle cx="15" cy="39" r="3" fill="#FFFFFF" />
-                <circle cx="27" cy="39" r="3" fill="#FFFFFF" />
-                <circle cx="39" cy="39" r="3" fill="#FFFFFF" />
-                <circle cx="27" cy="51" r="3" fill="#FFFFFF" />
-                <circle cx="39" cy="51" r="3" fill="#FFFFFF" />
-                <circle cx="51" cy="51" r="3" fill="#FFFFFF" />
-            </svg>
-        </div>
-    );
-};
+export default Operators
