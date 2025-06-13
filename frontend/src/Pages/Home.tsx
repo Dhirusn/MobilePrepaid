@@ -1,13 +1,76 @@
 import { BatteryCharging } from "lucide-react";
 import ChargingOptions from "../components/ChargingOptions";
-import { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useAppSelector } from "../lib/hook";
+import type { RootState } from "../redux/store";
 
+const MemoCharginOptions = React.memo(ChargingOptions, (prevProps, nextProps) => {
+    return prevProps.title === nextProps.title &&
+        prevProps.titleTextColor === nextProps.titleTextColor &&
+        prevProps.itemTextColor === nextProps.itemTextColor &&
+        prevProps.itemTextHoverColor === nextProps.itemTextHoverColor &&
+        prevProps.midTextColor === nextProps.midTextColor &&
+        prevProps.mainBorderColorValue === nextProps.mainBorderColorValue &&
+        prevProps.midBorderColorValue === nextProps.midBorderColorValue &&
+        prevProps.bgColorValue === nextProps.bgColorValue;
+});
 
 const Home = () => {
     const [mobile, setMobile] = useState();
-    const [amount, setAmount] = useState();
+    const [amount, setAmount] = useState<number>();
+    const { rechargeAmt } = useAppSelector((x: RootState) => x.rechargeSlice);
+
+    useEffect(() => {
+        if (rechargeAmt) {
+            setAmount(parseInt(rechargeAmt))
+        }
+    }, [rechargeAmt])
+
+
+    const renderChargingComp = useCallback((companyName: 'vodafone' | 'orange' | 'telekom') => {
+        switch (companyName) {
+            case "vodafone":
+                return <MemoCharginOptions
+                    title="Vodafone Charging"
+                    titleTextColor="text-pink-500"
+                    itemTextColor="text-red-700"
+                    itemTextHoverColor="group-hover:text-white"
+                    midTextColor="pink-700"
+                    mainBorderColorValue="border-pink-700"
+                    midBorderColorValue="border-pink-700"
+                    bgColorValue=""
+                />
+            case "orange":
+                return <MemoCharginOptions
+                    title="Orange Charging"
+                    titleTextColor="text-pink-500"
+                    itemTextColor="text-red-700"
+                    itemTextHoverColor="group-hover:text-white"
+                    midTextColor="pink-700"
+                    mainBorderColorValue="border-pink-700"
+                    midBorderColorValue="border-pink-700"
+                    bgColorValue=""
+                />
+            case "telekom":
+                return <MemoCharginOptions
+                    title="Telekom Charging"
+                    titleTextColor="text-pink-700"
+                    itemTextColor="text-pink-700"
+                    itemTextHoverColor="group-hover:text-white"
+                    midTextColor="pink-400"
+                    mainBorderColorValue="border-red-700"
+                    midBorderColorValue="border-pink-700"
+                    bgColorValue="pink-500"
+
+                />
+            default: {
+                return null
+            }
+        }
+    }, [])
+
     return (
-        <div className="min-h-screen bg-black text-white font-sans border">
+        <div className="min-h-screen font-sans border">
             {/* Hero Section */}
             <div className="bg-[#5300ef] text-white">
 
@@ -141,37 +204,10 @@ const Home = () => {
             </div>
 
             {/* Charging Sections */}
-            <ChargingOptions
-                title="Telekom Charging"
-                titleTextColor="pink-700"
-                itemTextColor="pink-700"
-                itemTextHoverColor="white"
-                midTextColor="pink-400"
-                mainBorderColorValue="red-700"
-                midBorderColorValue="pink-700"
-                bgColorValue="pink-500"
 
-            />
-            <ChargingOptions
-                title="Orange Charging"
-                titleTextColor="pink-500"
-                itemTextColor="red-700"
-                itemTextHoverColor=""
-                midTextColor="pink-700"
-                mainBorderColorValue=""
-                midBorderColorValue=""
-                bgColorValue=""
-            />
-            <ChargingOptions
-                title="Vodafone Charging"
-                titleTextColor="pink-500"
-                itemTextColor="red-700"
-                itemTextHoverColor=""
-                midTextColor="pink-700"
-                mainBorderColorValue=""
-                midBorderColorValue=""
-                bgColorValue=""
-            />
+            {renderChargingComp('telekom')}
+            {renderChargingComp('orange')}
+            {renderChargingComp('vodafone')}
         </div>
     )
 }
