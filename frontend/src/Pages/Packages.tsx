@@ -1,14 +1,22 @@
 import ChargingOptions from "../components/ChargingOptions";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Packages = () => {
     const { pkg } = useParams();
+    const navigate = useNavigate();
+    const scrollToTop = (route: string) => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+        navigate(`/operators/${route}`)
+    };
 
     return (
         <>
-            <div className="bg-[#5300ef] h-[30vh] w-full">
+            <div className="bg-[#5300ef] h-[30vh] w-full mt-16">
                 <div className="w-full md:w-[70%] m-auto ">
-                    <h2 className="text-4xl font-bold text-white">Credit Transfer</h2>
+                    <h2 className="text-4xl font-bold text-white">Packages</h2>
                 </div>
             </div>
             <div className="p-6 bg-white shadow-md rounded-md space-y-6 w-full md:w-[70%] m-auto relative bottom-20 md:bottom-42">
@@ -299,13 +307,14 @@ const Packages = () => {
 
                     <ChargingOptions
                         title={pkg!}
-                        titleTextColor="pink-700"
-                        itemTextColor="pink-700"
-                        itemTextHoverColor="white"
-                        midTextColor="pink-400"
-                        mainBorderColorValue="red-700"
-                        midBorderColorValue="pink-700"
-                        bgColorValue="pink-500"
+                        titleTextColor="text-pink-600"
+                        itemTextColor="text-pink-600"
+                        itemTextHoverColor="group-hover:text-white"
+                        midTextColor="text-pink-500"
+                        mainBorderColorValue="border-red-700"
+                        midBorderColorValue="border-red-700"
+                        bgColorValue="hover:bg-red-500"
+                        scrollToTop={() => scrollToTop("Telekom")}
                     />
                 )
             }
@@ -313,13 +322,14 @@ const Packages = () => {
                 pkg === "Orange" && (
                     <ChargingOptions
                         title={pkg!}
-                        titleTextColor="pink-700"
-                        itemTextColor="pink-700"
-                        itemTextHoverColor="white"
-                        midTextColor="pink-400"
-                        mainBorderColorValue="red-700"
-                        midBorderColorValue="pink-700"
-                        bgColorValue="pink-500"
+                        titleTextColor="text-orange-600"
+                        itemTextColor="text-orange-600"
+                        itemTextHoverColor="group-hover:text-white"
+                        midTextColor="text-orange-500"
+                        mainBorderColorValue="border-orange-700"
+                        midBorderColorValue="border-orange-700"
+                        bgColorValue="hover:bg-orange-500"
+                        scrollToTop={() => scrollToTop("Orange")}
                     />
                 )
             }
@@ -328,13 +338,14 @@ const Packages = () => {
                 pkg === "Vodafone" && (
                     <ChargingOptions
                         title={pkg!}
-                        titleTextColor="red-700"
-                        itemTextColor="red-700"
-                        itemTextHoverColor="white"
-                        midTextColor="red-400"
-                        mainBorderColorValue="red-700"
-                        midBorderColorValue="red-700"
-                        bgColorValue="red-500"
+                        titleTextColor="text-red-600"
+                        itemTextColor="text-red-600"
+                        itemTextHoverColor="group-hover:text-white"
+                        midTextColor="text-red-500"
+                        mainBorderColorValue="border-red-700"
+                        midBorderColorValue="border-red-700"
+                        bgColorValue="hover:bg-red-600"
+                        scrollToTop={() => scrollToTop("Vodafone")}
                     />
                 )
             }

@@ -7,7 +7,7 @@ const Navbar = () => {
     const [showPackages, setShowPackages] = useState(false);
     return (
         <>
-            <nav className="w-full text-white py-4 px-6 flex justify-between items-center text-sm font-medium relative bg-[#5300ef]">
+            <nav className="fixed top-0 left-0 z-50 bg-[#5300ef] w-full text-white py-4 px-6 flex justify-between items-center text-sm font-medium">
                 <div className="flex text-2xl font-bold tracking-wide"><LogoIcon /> cartela.info</div>
 
 
@@ -31,12 +31,12 @@ const Navbar = () => {
                             <li><Link to="/packages/Telekom" className="block px-4 py-2 hover:bg-gray-300">Telekom</Link></li>
                         </ul>
                     </li>
-                    <Link to="/credit-transfer"><li>Credit Transfer</li></Link>
-                    <li>International Cards</li>
-                    <li>Gold</li>
-                    <li>Numbers</li>
-                    <li>How to Recharge & Pay</li>
-                    <li>FAQ</li>
+                    <Link to="/credit-transfer" className="cursor-pointer"><li>Credit Transfer</li></Link>
+                    <li className="cursor-pointer">International Cards</li>
+                    <li className="cursor-pointer">Gold</li>
+                    <li className="cursor-pointer">Numbers</li>
+                    <Link to="/how-to-pay" className="cursor-pointer"><li>How to Recharge & Pay</li></Link>
+                    <li className="cursor-pointer">FAQ</li>
                 </ul>
 
                 {/* Language & VIP */}
@@ -98,7 +98,7 @@ const Navbar = () => {
                             <span className="flex items-center gap-3"><Gem /> Gold Numbers</span>
                             <span className="text-xs bg-white text-black px-2 py-1 rounded">VIP</span>
                         </Link>
-                        <Link to="/how-to-recharge" onClick={() => setIsMobileMenuOpen(false)} className="bg-[#3c00ce] rounded-xl px-4 py-3 flex items-center gap-3"><HandCoins /> How to Recharge & Pay</Link>
+                        <Link to="/how-to-pay" onClick={() => setIsMobileMenuOpen(false)} className="bg-[#3c00ce] rounded-xl px-4 py-3 flex items-center gap-3"><HandCoins /> How to Recharge & Pay</Link>
                         <Link to="/faq" onClick={() => setIsMobileMenuOpen(false)} className="bg-[#3c00ce] rounded-xl px-4 py-3 flex items-center gap-3"><CircleHelp /> FAQ</Link>
                     </div>
                 </div>

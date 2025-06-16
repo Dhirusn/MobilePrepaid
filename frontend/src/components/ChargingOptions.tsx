@@ -14,7 +14,8 @@ type ChargingOptionsProps = {
     midTextColor: string,
     mainBorderColorValue: string,
     midBorderColorValue: string,
-    bgColorValue: string
+    bgColorValue: string,
+    scrollToTop?: () => void
 
 }
 
@@ -26,7 +27,8 @@ const ChargingOptions: React.FC<ChargingOptionsProps> = ({
     midTextColor,
     mainBorderColorValue,
     midBorderColorValue,
-    bgColorValue }) => {
+    bgColorValue,
+    scrollToTop }) => {
     const chargingOptions = [
         { euro: "3", lei: "25.52" },
         { euro: "4", lei: "34.02" },
@@ -62,7 +64,8 @@ const ChargingOptions: React.FC<ChargingOptionsProps> = ({
                 {chargingOptions.map((item, idx) => (
                     <div key={idx} onClick={() => rechageHandler(item.euro)}
                         className={clsx(`w-44 h-44 rounded-full flex flex-col items-center justify-center text-center border-0 md:border-4 px-2 py-2 cursor-pointer`, midBorderColorValue)}>
-                        <div key={idx} className={clsx(`w-38 h-38 rounded-full flex flex-col items-center justify-center text-center text-${midTextColor} border-2 border-${midBorderColorValue} hover:bg-${bgColorValue} hover:text-white group`)}>
+                        <div key={idx} onClick={scrollToTop}
+                            className={clsx(`w-38 h-38 rounded-full flex flex-col items-center justify-center text-center border-2 hover:text-white group`, midTextColor, midBorderColorValue,bgColorValue)}>
                             <span className={clsx(`font-bold text-3xl`, itemTextColor, itemTextHoverColor)}>
                                 {item.euro} Euro
                             </span>
@@ -73,7 +76,7 @@ const ChargingOptions: React.FC<ChargingOptionsProps> = ({
                     </div>
                 ))}
             </div>
-        </div>
+        </div >
     )
 }
 

@@ -6,6 +6,7 @@ import Footer from "./layouts/Footer";
 import CreditTransfer from "./Pages/CreditTransfer";
 import Packages from "./Pages/Packages";
 import Operators from "./Pages/Operators";
+import HowToPay from "./Pages/HowToPay";
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/credit-transfer" element={<CreditTransfer />} />
         <Route path="/packages/:pkg" element={<Packages />} />
         <Route path="/operators/:opt" element={<Operators />} />
+        <Route path="/how-to-pay" element={<HowToPay />} />
         <Route path="*" element={<Home />} />
       </Routes>
       <Footer />

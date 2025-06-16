@@ -19,7 +19,7 @@ const CreditTransfer = () => {
 
     return (
         <>
-            <div className="bg-[#5300ef] h-[30vh] w-full">
+            <div className="bg-[#5300ef] h-[30vh] w-full mt-16">
                 <div className="w-full md:w-[70%] m-auto ">
                     <h2 className="text-4xl font-bold text-white">Credit Transfer</h2>
                 </div>

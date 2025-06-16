@@ -1,73 +1,28 @@
 import { BatteryCharging } from "lucide-react";
+import { useEffect, useState } from "react";
 import ChargingOptions from "../components/ChargingOptions";
-import React, { useCallback, useEffect, useState } from "react";
 import { useAppSelector } from "../lib/hook";
 import type { RootState } from "../redux/store";
-
-const MemoCharginOptions = React.memo(ChargingOptions, (prevProps, nextProps) => {
-    return prevProps.title === nextProps.title &&
-        prevProps.titleTextColor === nextProps.titleTextColor &&
-        prevProps.itemTextColor === nextProps.itemTextColor &&
-        prevProps.itemTextHoverColor === nextProps.itemTextHoverColor &&
-        prevProps.midTextColor === nextProps.midTextColor &&
-        prevProps.mainBorderColorValue === nextProps.mainBorderColorValue &&
-        prevProps.midBorderColorValue === nextProps.midBorderColorValue &&
-        prevProps.bgColorValue === nextProps.bgColorValue;
-});
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
     const [mobile, setMobile] = useState();
     const [amount, setAmount] = useState<number>();
     const { rechargeAmt } = useAppSelector((x: RootState) => x.rechargeSlice);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (rechargeAmt) {
             setAmount(parseInt(rechargeAmt))
         }
-    }, [rechargeAmt])
-
-
-    const renderChargingComp = useCallback((companyName: 'vodafone' | 'orange' | 'telekom') => {
-        switch (companyName) {
-            case "vodafone":
-                return <MemoCharginOptions
-                    title="Vodafone Charging"
-                    titleTextColor="text-pink-500"
-                    itemTextColor="text-red-700"
-                    itemTextHoverColor="group-hover:text-white"
-                    midTextColor="pink-700"
-                    mainBorderColorValue="border-pink-700"
-                    midBorderColorValue="border-pink-700"
-                    bgColorValue=""
-                />
-            case "orange":
-                return <MemoCharginOptions
-                    title="Orange Charging"
-                    titleTextColor="text-pink-500"
-                    itemTextColor="text-red-700"
-                    itemTextHoverColor="group-hover:text-white"
-                    midTextColor="pink-700"
-                    mainBorderColorValue="border-pink-700"
-                    midBorderColorValue="border-pink-700"
-                    bgColorValue=""
-                />
-            case "telekom":
-                return <MemoCharginOptions
-                    title="Telekom Charging"
-                    titleTextColor="text-pink-700"
-                    itemTextColor="text-pink-700"
-                    itemTextHoverColor="group-hover:text-white"
-                    midTextColor="pink-400"
-                    mainBorderColorValue="border-red-700"
-                    midBorderColorValue="border-pink-700"
-                    bgColorValue="pink-500"
-
-                />
-            default: {
-                return null
-            }
-        }
-    }, [])
+    }, [rechargeAmt]);
+    const scrollToTop = (route: string) => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+        navigate(`operators/${route}`)
+    };
 
     return (
         <div className="min-h-screen font-sans border">
@@ -205,9 +160,39 @@ const Home = () => {
 
             {/* Charging Sections */}
 
-            {renderChargingComp('telekom')}
-            {renderChargingComp('orange')}
-            {renderChargingComp('vodafone')}
+            <ChargingOptions
+                title={"Telekom Charging"}
+                titleTextColor="text-pink-600"
+                itemTextColor="text-pink-600"
+                itemTextHoverColor="group-hover:text-white"
+                midTextColor="text-pink-500"
+                mainBorderColorValue="border-red-700"
+                midBorderColorValue="border-red-700"
+                bgColorValue="hover:bg-red-500"
+                scrollToTop={() => scrollToTop("Telekom")}
+            />
+            <ChargingOptions
+                title={"Orange Charging"}
+                titleTextColor="text-orange-600"
+                itemTextColor="text-orange-600"
+                itemTextHoverColor="group-hover:text-white"
+                midTextColor="text-orange-500"
+                mainBorderColorValue="border-orange-700"
+                midBorderColorValue="border-orange-700"
+                bgColorValue="hover:bg-orange-500"
+                scrollToTop={() => scrollToTop("Orange")}
+            />
+            <ChargingOptions
+                title={"Vodafone Charging"}
+                titleTextColor="text-red-600"
+                itemTextColor="text-red-600"
+                itemTextHoverColor="group-hover:text-white"
+                midTextColor="text-red-500"
+                mainBorderColorValue="border-red-700"
+                midBorderColorValue="border-red-700"
+                bgColorValue="hover:bg-red-600"
+                scrollToTop={() => scrollToTop("Vodafone")}
+            />
         </div>
     )
 }

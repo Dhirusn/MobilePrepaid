@@ -1,13 +1,27 @@
 import { BatteryCharging } from "lucide-react"
 import { LogoIcon } from "./Home"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ChargingOptions from "../components/ChargingOptions";
 import { useParams } from "react-router-dom";
+import { useAppSelector } from "../lib/hook";
+import type { RootState } from "../redux/store";
 
 const Operators = () => {
     const [mobile, setMobile] = useState();
-    const [amount, setAmount] = useState();
+    const [amount, setAmount] = useState<number>();
     const { opt } = useParams();
+    const { rechargeAmt } = useAppSelector((x: RootState) => x.rechargeSlice);
+    useEffect(() => {
+        setAmount(parseInt(rechargeAmt))
+    }, [rechargeAmt])
+
+    const scrollToTop = () => {
+        debugger
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
 
     const bgColor =
         opt === "Orange"
@@ -124,16 +138,53 @@ const Operators = () => {
 
 
             {/* Charging Sections */}
-            <ChargingOptions
-                title={opt!}
-                titleTextColor="pink-700"
-                itemTextColor="pink-700"
-                itemTextHoverColor="white"
-                midTextColor="pink-400"
-                mainBorderColorValue="red-700"
-                midBorderColorValue="pink-700"
-                bgColorValue="pink-500"
-            />
+            {
+                opt === "Telekom" && (
+
+                    <ChargingOptions
+                        title={opt!}
+                        titleTextColor="text-pink-600"
+                        itemTextColor="text-pink-600"
+                        itemTextHoverColor="group-hover:text-white"
+                        midTextColor="text-pink-500"
+                        mainBorderColorValue="border-red-700"
+                        midBorderColorValue="border-red-700"
+                        bgColorValue="hover:bg-red-500"
+                        scrollToTop={scrollToTop}
+                    />
+                )
+            }
+            {
+                opt === "Orange" && (
+                    <ChargingOptions
+                        title={opt!}
+                        titleTextColor="text-orange-600"
+                        itemTextColor="text-orange-600"
+                        itemTextHoverColor="group-hover:text-white"
+                        midTextColor="text-orange-500"
+                        mainBorderColorValue="border-orange-700"
+                        midBorderColorValue="border-orange-700"
+                        bgColorValue="hover:bg-orange-500"
+                        scrollToTop={scrollToTop}
+                    />
+                )
+            }
+
+            {
+                opt === "Vodafone" && (
+                    <ChargingOptions
+                        title={opt!}
+                        titleTextColor="text-red-600"
+                        itemTextColor="text-red-600"
+                        itemTextHoverColor="group-hover:text-white"
+                        midTextColor="text-red-500"
+                        mainBorderColorValue="border-red-700"
+                        midBorderColorValue="border-red-700"
+                        bgColorValue="hover:bg-red-600"
+                        scrollToTop={scrollToTop}
+                    />
+                )
+            }
         </div>
     )
 }
