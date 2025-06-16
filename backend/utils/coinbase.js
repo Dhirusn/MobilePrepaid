@@ -9,8 +9,8 @@ export const createCoinbaseCharge = async (amount, paymentId) => {
     },
     pricing_type: 'fixed_price',
     metadata: { paymentId },
-    redirect_url: `${process.env.CLIENT_URL}/topup/success?paymentId=${paymentId}`,
-    cancel_url: `${process.env.CLIENT_URL}/topup/cancel`,
+    redirect_url: `${process.env.STRIPE_CLIENT_URL}/topup/success?paymentId=${paymentId}`,
+    cancel_url: `${process.env.STRIPE_CLIENT_URL}/topup/cancel`,
   }, {
     headers: {
       'X-CC-Api-Key': process.env.COINBASE_API_KEY,

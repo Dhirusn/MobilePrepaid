@@ -23,8 +23,8 @@ export const createStripeSession = async (amount, paymentId) => {
       quantity: 1,
     }],
     mode: 'payment',
-    success_url: `${process.env.CLIENT_URL}/topup/success?paymentId=${paymentId}`,
-    cancel_url: `${process.env.CLIENT_URL}/topup/cancel`,
+    success_url: `${process.env.STRIPE_CLIENT_URL}/topup/success?paymentId=${paymentId}`,
+    cancel_url: `${process.env.STRIPE_CLIENT_URL}/topup/cancel`,
   });
 
   return { url: session.url };
