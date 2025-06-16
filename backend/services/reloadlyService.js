@@ -1,40 +1,45 @@
-const axios = require('axios');
+import axios from 'axios';
+import https from 'https';
+
+const httpsAgent = new https.Agent({ rejectUnauthorized: false });
 
 let accessToken = null;
 
-async function getAccessToken() {
+export const getAccessToken = async () => {
   if (accessToken) return accessToken;
 
   const response = await axios.post('https://auth.reloadly.com/oauth/token', {
     client_id: process.env.RELOADLY_CLIENT_ID,
     client_secret: process.env.RELOADLY_CLIENT_SECRET,
     grant_type: 'client_credentials',
-    audience: 'https://topups.reloadly.com'
+    audience: 'https://topups-sandbox.reloadly.com'
   });
 
   accessToken = response.data.access_token;
   return accessToken;
 }
 
-async function getCountries() {
+export const getCountries = async () => {
+  console.log("working 1")
   const token = await getAccessToken();
-  const res = await axios.get('https://topups.reloadly.com/countries', {
+  const res = await axios.get('https://topups-sandbox.reloadly.com/countries', {
+    headers: { Authorization: `Bearer ${token}` },
+    httpsAgent
+  });
+  return res.data;
+}
+
+export const getOperators = async (countryIso) => {
+  const token = await getAccessToken();
+  const res = await axios.get(`https://topups-sandbox.reloadly.com/operators/countries/${countryIso}`, {
     headers: { Authorization: `Bearer ${token}` }
   });
   return res.data;
 }
 
-async function getOperators(countryIso) {
+export const sendTopup = async ({ operatorId, amount, recipientPhone }) => {
   const token = await getAccessToken();
-  const res = await axios.get(`https://topups.reloadly.com/operators/countries/${countryIso}`, {
-    headers: { Authorization: `Bearer ${token}` }
-  });
-  return res.data;
-}
-
-async function sendTopup({ operatorId, amount, recipientPhone }) {
-  const token = await getAccessToken();
-  const res = await axios.post(`https://topups.reloadly.com/topups`, {
+  const res = await axios.post(`https://topups-sandbox.reloadly.com/topups`, {
     operatorId,
     amount,
     useLocalAmount: true,
@@ -52,9 +57,3 @@ async function sendTopup({ operatorId, amount, recipientPhone }) {
   });
   return res.data;
 }
-
-module.exports = {
-  getCountries,
-  getOperators,
-  sendTopup
-};

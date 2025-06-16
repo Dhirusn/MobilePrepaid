@@ -16,36 +16,42 @@ export const getHistory = async (req, res) => {
 };
 
 export const createTopupSession = async (req, res) => {
-  const { phoneNumber, countryCode, operatorId, amount, provider } = req.body;
-  const userId = req.user._id;
+  try {
+    const { phoneNumber, countryCode, operatorId, amount, provider } = req.body;
+    const userId = req.user._id;
 
-  const payment = await Payment.create({
-    user: userId,
-    amount,
-    provider,
-    status: 'pending',
-  });
+    const payment = await Payment.create({
+      user: userId,
+      amount,
+      provider,
+      status: 'pending',
+    });
 
-  const topup = await Topup.create({
-    user: userId,
-    phoneNumber,
-    countryCode,
-    operatorId,
-    amount,
-    paymentId: payment._id,
-  });
+    const topup = await Topup.create({
+      user: userId,
+      phoneNumber,
+      countryCode,
+      operatorId,
+      amount,
+      paymentId: payment._id,
+    });
 
-  let paymentSession;
+    let paymentSession;
 
-  if (provider === 'stripe') {
-    paymentSession = await createStripeSession(amount, payment._id);
-  } else if (provider === 'coinbase') {
-    paymentSession = await createCoinbaseCharge(amount, payment._id);
-  } else {
-    return res.status(400).json({ message: 'Unsupported payment provider' });
+    if (provider === 'stripe') {
+      paymentSession = await createStripeSession(amount, payment._id);
+      console.log("this is paymentSession", paymentSession)
+    } else if (provider === 'coinbase') {
+      paymentSession = await createCoinbaseCharge(amount, payment._id);
+      console.log("this is paymentSession", paymentSession)
+    } else {
+      return res.status(400).json({ message: 'Unsupported payment provider' });
+    }
+
+    res.json({ url: paymentSession.url });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
   }
-
-  res.json({ url: paymentSession.url });
 };
 
 export const confirmTopup = async (req, res) => {

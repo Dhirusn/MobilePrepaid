@@ -13,8 +13,16 @@ import adminRoutes from './routes/admin.js';
 import reloadlyRoutes from './routes/reloadly.js';
 import topupRoutes from './routes/topup.js';
 import transferRoutes from './routes/transfer.js';
+import errorMiddleware from './middlewares/error.js'
+
+process.on("uncaughtException", (err) => {
+    console.log(`Error: ${err.message}`);
+    console.log(`Shutting down the server due to Uncaught Exception`);
+    process.exit(1);
+});
 
 connectDB();
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
 const app = express();
 // Enable CORS for all origins (or restrict it to client URL)
@@ -34,6 +42,17 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/reloadly', reloadlyRoutes);
 app.use('/api/topup', topupRoutes);
 app.use('/api/transferRoutes', transferRoutes);
+app.use(errorMiddleware)
 
 
 app.listen(5000, () => console.log('🚀 Server running on http://localhost:5000\n📘 Docs: http://localhost:5000/api-docs'));
+
+
+process.on("unhandledRejection", (err) => {
+    console.log(`Error: ${err.message}`);
+    console.log(`Shutting down the server due to Unhandled Promise Rejection`);
+
+    server.close(() => {
+        process.exit(1);
+    });
+});
