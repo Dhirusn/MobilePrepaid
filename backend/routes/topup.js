@@ -59,7 +59,7 @@ const router = express.Router();
  *       400:
  *         description: Bad request
  */
-router.post('/initiate', protect, createTopupSession);
+router.post('/initiate', createTopupSession);
 
 /**
  * @swagger
@@ -87,7 +87,7 @@ router.post('/initiate', protect, createTopupSession);
  *       400:
  *         description: Invalid session
  */
-router.post('/confirm', protect, confirmTopup);
+router.post('/confirm', confirmTopup);
 
 /**
  * @swagger
@@ -101,6 +101,6 @@ router.post('/confirm', protect, confirmTopup);
  *       200:
  *         description: List of top-up records
  */
-router.get('/history', protect, getHistory);
+router.get('/history', getHistory);
 
 export default router;

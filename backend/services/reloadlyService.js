@@ -7,6 +7,7 @@ let accessToken = null;
 
 export const getAccessToken = async () => {
   if (accessToken) return accessToken;
+  console.log('working21');
 
   const response = await axios.post('https://auth.reloadly.com/oauth/token', {
     client_id: process.env.RELOADLY_CLIENT_ID,
@@ -14,17 +15,19 @@ export const getAccessToken = async () => {
     grant_type: 'client_credentials',
     audience: 'https://topups-sandbox.reloadly.com'
   });
+  console.log('working2');
 
   accessToken = response.data.access_token;
+  console.log('working21');
+
   return accessToken;
 }
 
 export const getCountries = async () => {
   console.log("working 1")
   const token = await getAccessToken();
-  const res = await axios.get('https://topups-sandbox.reloadly.com/countries', {
-    headers: { Authorization: `Bearer ${token}` },
-    httpsAgent
+  const res = await axios.get('https://topups.reloadly.com/countries', {
+    headers: { Authorization: `Bearer ${token}` }
   });
   return res.data;
 }

@@ -3,8 +3,9 @@ import {
   getCountries,
   getOperatorsByCountry,
   sendTopupRequest,
+  rechargeMobile
 } from '../controllers/reloadlyController.js';
-import { protect } from '../middlewares/auth.js';
+
 
 const router = express.Router();
 
@@ -88,6 +89,47 @@ router.get('/operators/:countryIso', getOperatorsByCountry);
  *       500:
  *         description: Server error
  */
-router.post('/topup', protect, sendTopupRequest);
+router.post('/topup', sendTopupRequest);
+
+/**
+ * @swagger
+ * /reloadly/recharge:
+ *   post:
+ *     summary: Recharge mobile using Stripe payment and Reloadly
+ *     tags: [Reloadly]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - operatorId
+ *               - amount
+ *               - phone
+ *             properties:
+ *               operatorId:
+ *                 type: number
+ *                 example: 173
+ *               amount:
+ *                 type: number
+ *                 example: 5
+ *               phone:
+ *                 type: string
+ *                 example: "+919999999999"
+ *     responses:
+ *       200:
+ *         description: Recharge successful
+ *       400:
+ *         description: Bad request or validation error
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Server error
+ */
+router.post('/recharge', rechargeMobile);
+
 
 export default router;

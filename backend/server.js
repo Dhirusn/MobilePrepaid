@@ -21,6 +21,7 @@ process.on("uncaughtException", (err) => {
     process.exit(1);
 });
 
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 connectDB();
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
