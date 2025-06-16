@@ -4,6 +4,8 @@ import Home from "./Pages/Home";
 import Navbar from "./layouts/Navbar";
 import Footer from "./layouts/Footer";
 import CreditTransfer from "./Pages/CreditTransfer";
+import Packages from "./Pages/Packages";
+import Operators from "./Pages/Operators";
 
 function App() {
 
@@ -14,6 +16,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/credit-transfer" element={<CreditTransfer />} />
+        <Route path="/packages/:pkg" element={<Packages />} />
+        <Route path="/operators/:opt" element={<Operators />} />
+        <Route path="*" element={<Home />} />
       </Routes>
       <Footer />
     </Router>
