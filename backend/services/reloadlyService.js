@@ -1,8 +1,12 @@
+import dotenv from 'dotenv';
+dotenv.config(); // 👈 Make sure this comes FIRST
+
+import Stripe from 'stripe'; // ✅ Add this line at the top
 import axios from 'axios';
 import https from 'https';
 
-const httpsAgent = new https.Agent({ rejectUnauthorized: false });
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const httpsAgent = new https.Agent({ rejectUnauthorized: false });
 
 let accessToken = null;
 
