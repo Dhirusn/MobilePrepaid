@@ -93,12 +93,11 @@ router.post('/topup', sendTopupRequest);
 
 /**
  * @swagger
- * /reloadly/recharge:
+ * /recharge:
  *   post:
- *     summary: Recharge mobile using Stripe payment and Reloadly
- *     tags: [Reloadly]
- *     security:
- *       - bearerAuth: []
+ *     summary: Recharge mobile using Stripe and Reloadly
+ *     tags:
+ *       - Recharge
  *     requestBody:
  *       required: true
  *       content:
@@ -106,30 +105,52 @@ router.post('/topup', sendTopupRequest);
  *           schema:
  *             type: object
  *             required:
- *               - operatorId
+ *               - paymentMethodId
+ *               - country
+ *               - operator
  *               - amount
- *               - phone
+ *               - phoneNumber
  *             properties:
- *               operatorId:
- *                 type: number
- *                 example: 173
+ *               paymentMethodId:
+ *                 type: string
+ *                 example: pm_test_abc123
+ *               country:
+ *                 type: string
+ *                 description: ISO country code (e.g., IN, US)
+ *                 example: IN
+ *               operator:
+ *                 type: string
+ *                 description: Mobile operator name (e.g., airtel)
+ *                 example: airtel
  *               amount:
  *                 type: number
- *                 example: 5
- *               phone:
+ *                 example: 50
+ *               phoneNumber:
  *                 type: string
- *                 example: "+919999999999"
+ *                 example: "9876543210"
  *     responses:
  *       200:
  *         description: Recharge successful
- *       400:
- *         description: Bad request or validation error
- *       401:
- *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Recharge successful
+ *                 transactionId:
+ *                   type: number
+ *                 stripePaymentId:
+ *                   type: string
  *       500:
- *         description: Server error
+ *         description: Server error or validation failure
  */
 router.post('/recharge', rechargeMobile);
+
 
 
 export default router;
