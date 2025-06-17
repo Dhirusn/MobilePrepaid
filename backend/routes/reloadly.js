@@ -93,11 +93,10 @@ router.post('/topup', sendTopupRequest);
 
 /**
  * @swagger
- * /recharge:
+ * /reloadly/recharge:
  *   post:
  *     summary: Recharge mobile using Stripe and Reloadly
- *     tags:
- *       - Recharge
+ *     tags: [Reloadly]
  *     requestBody:
  *       required: true
  *       content:
