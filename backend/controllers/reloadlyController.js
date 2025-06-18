@@ -34,30 +34,40 @@ export const sendTopupRequest = async (req, res) => {
 };
 
 export const rechargeMobile = async (req, res) => {
- try {
+  try {
     const {
       paymentMethodId,
       country,
       operator,
       amount,
-      phoneNumber
+      phoneNumber,
+      currency // 👈 Accept currency from request body
     } = req.body;
+
+    // Basic input validation
+    if (!paymentMethodId || !country || !operator || !amount || !phoneNumber || !currency) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing required fields"
+      });
+    }
 
     const result = await processRecharge({
       paymentMethodId,
       country,
       operator,
       amount,
-      phoneNumber
+      phoneNumber,
+      currency // 👈 Pass currency to processing function
     });
 
     res.status(200).json(result);
   } catch (error) {
-    console.error("Recharge Error:", error.message);
+    console.error("Recharge Error:", error.message || error);
     res.status(500).json({
       success: false,
       message: "Recharge failed",
-      error: error.message,
+      error: error.message || "Internal server error",
     });
   }
-}
+};

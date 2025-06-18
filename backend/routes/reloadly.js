@@ -109,6 +109,7 @@ router.post('/topup', sendTopupRequest);
  *               - operator
  *               - amount
  *               - phoneNumber
+ *               - currency    # ✅ Added as required
  *             properties:
  *               paymentMethodId:
  *                 type: string
@@ -119,14 +120,18 @@ router.post('/topup', sendTopupRequest);
  *                 example: IN
  *               operator:
  *                 type: string
- *                 description: Mobile operator name (e.g., airtel)
- *                 example: airtel
+ *                 description: Mobile operator name (e.g., Airtel, Jio)
+ *                 example: Airtel
  *               amount:
  *                 type: number
  *                 example: 50
  *               phoneNumber:
  *                 type: string
  *                 example: "9876543210"
+ *               currency:
+ *                 type: string
+ *                 description: 3-letter ISO currency code (e.g., USD, INR, EUR)
+ *                 example: INR
  *     responses:
  *       200:
  *         description: Recharge successful
@@ -143,10 +148,26 @@ router.post('/topup', sendTopupRequest);
  *                   example: Recharge successful
  *                 transactionId:
  *                   type: number
+ *                   example: 123456789
  *                 stripePaymentId:
  *                   type: string
+ *                   example: pi_1ABCDefghijkLmnoP
  *       500:
  *         description: Server error or validation failure
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Recharge failed
+ *                 error:
+ *                   type: string
+ *                   example: Missing required fields
  */
 router.post('/recharge', rechargeMobile);
 
