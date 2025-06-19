@@ -43,6 +43,8 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/reloadly', reloadlyRoutes);
 app.use('/api/topup', topupRoutes);
 app.use('/api/transferRoutes', transferRoutes);
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 app.use(errorMiddleware)
 
 
