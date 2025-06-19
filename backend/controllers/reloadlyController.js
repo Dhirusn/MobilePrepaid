@@ -1,9 +1,14 @@
 import {
   getCountries as fetchCountries,
   getOperators,
-  sendTopup,
-  processRecharge
+  processRecharge,
+  sendTopup
 } from '../services/reloadlyService.js';
+import Stripe from 'stripe'; // ✅ Add this line at the top
+
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
 
 export const getCountries = async (req, res) => {
   try {
@@ -71,3 +76,22 @@ export const rechargeMobile = async (req, res) => {
     });
   }
 };
+
+export const createStripeIntent = async (req, res) => {
+  try {
+    const { amount, curr } = req.body; // amount in cents
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount,
+      currency: curr,
+      payment_method_types: ["card"],
+    });
+
+    res.send({
+      clientSecret: paymentIntent.client_secret,
+    });
+  } catch (err) {
+    res.status(400).send({ error: err.message });
+  }
+}
+

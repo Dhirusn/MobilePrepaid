@@ -85,37 +85,56 @@ async function resolveOperatorId(countryCode, operatorName, token) {
 }
 
 // 🔄 Combined Stripe + Reloadly processing
-export async function processRecharge({ paymentMethodId, country, operator, amount, phoneNumber, currency }) {
+export async function processRecharge({
+  paymentMethodId,
+  country,
+  operator,
+  amount,
+  phoneNumber,
+  currency
+}) {
   try {
-    if (!paymentMethodId || !country || !operator || !amount || !phoneNumber || !currency) {
-      throw new Error("Missing required fields");
+    // ✅ Validate input
+    if (
+      !paymentMethodId ||
+  
+      !country ||
+      !operator ||
+      !amount ||
+      !phoneNumber ||
+      !currency
+    ) {
+      throw new Error('Missing or invalid required fields');
     }
 
-    // 1. Confirm Stripe Payment
-    const payment = await stripe.paymentIntents.create({
-      amount: parseInt(amount.toString()) * 100, // Stripe expects cents
-      currency: currency.toLowerCase(), // e.g. 'usd', 'inr'
+    // 1. ✅ Create and confirm Stripe PaymentIntent
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: Math.round(parseFloat(amount) * 100), // Convert to cents
+      currency: currency.toLowerCase(),
       payment_method: paymentMethodId,
       confirm: true,
+      confirmation_method: 'automatic',
       automatic_payment_methods: {
         enabled: true,
         allow_redirects: 'never'
       }
     });
 
-    // 2. Get Reloadly Token
+    // 2. 🔑 Get Reloadly access token
     const token = await getAccessToken();
 
-    // 3. Resolve operator
+    // 3. 🔍 Resolve Reloadly operator
     const operatorId = await resolveOperatorId(country, operator, token);
-    if (!operatorId) throw new Error(`Could not find operator "${operator}" for "${country}"`);
+    if (!operatorId) {
+      throw new Error(`Could not find operator "${operator}" for "${country}"`);
+    }
 
-    // 4. Make the top-up request
+    // 4. 📲 Trigger top-up via Reloadly
     const topup = await axios.post(
       'https://topups-sandbox.reloadly.com/topups',
       {
         operatorId,
-        amount: parseFloat(amount.toString()),
+        amount: parseFloat(amount),
         useLocalAmount: true,
         customIdentifier: `recharge_${Date.now()}`,
         recipientPhone: {
@@ -136,10 +155,14 @@ export async function processRecharge({ paymentMethodId, country, operator, amou
       success: true,
       message: 'Recharge successful',
       transactionId: topup.data.transactionId,
-      stripePaymentId: payment.id
+      stripePaymentId: paymentIntent.id
     };
   } catch (error) {
     console.error('Recharge Error:', error?.message || error);
-    throw new Error(error?.message || 'Unknown error occurred');
+    return {
+      success: false,
+      message: 'Recharge failed',
+      error: error?.message || 'Unknown error occurred'
+    };
   }
 }

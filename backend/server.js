@@ -23,7 +23,7 @@ process.on("uncaughtException", (err) => {
 
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 connectDB();
-process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+// process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
 const app = express();
 // Enable CORS for all origins (or restrict it to client URL)

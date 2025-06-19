@@ -12,7 +12,7 @@ const Operators = () => {
     const { opt } = useParams();
     const { rechargeAmt } = useAppSelector((x: RootState) => x.rechargeSlice);
     useEffect(() => {
-        setAmount(parseInt(rechargeAmt))
+        setAmount(rechargeAmt!)
     }, [rechargeAmt])
 
     const scrollToTop = () => {
