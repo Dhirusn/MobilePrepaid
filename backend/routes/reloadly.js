@@ -3,7 +3,8 @@ import {
   getCountries,
   getOperatorsByCountry,
   sendTopupRequest,
-  rechargeMobile
+  rechargeMobile,
+  createStripeIntent
 } from '../controllers/reloadlyController.js';
 
 
@@ -170,6 +171,87 @@ router.post('/topup', sendTopupRequest);
  *                   example: Missing required fields
  */
 router.post('/recharge', rechargeMobile);
+
+
+/**
+ * @swagger
+ * /reloadly/create-payment-intent:
+ *   post:
+ *     summary: Recharge mobile using Stripe and Reloadly
+ *     tags: [Reloadly]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - paymentMethodId
+ *               - country
+ *               - operator
+ *               - amount
+ *               - phoneNumber
+ *               - currency
+ *             properties:
+ *               paymentMethodId:
+ *                 type: string
+ *                 example: pm_test_abc123
+ *               country:
+ *                 type: string
+ *                 description: ISO country code (e.g., IN, US)
+ *                 example: IN
+ *               operator:
+ *                 type: string
+ *                 description: Mobile operator name (e.g., Airtel, Jio)
+ *                 example: Airtel
+ *               amount:
+ *                 type: number
+ *                 example: 50
+ *               phoneNumber:
+ *                 type: string
+ *                 example: "9876543210"
+ *               currency:
+ *                 type: string
+ *                 description: 3-letter ISO currency code (e.g., USD, INR, EUR)
+ *                 example: INR
+ *     responses:
+ *       200:
+ *         description: Recharge successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Recharge successful
+ *                 transactionId:
+ *                   type: number
+ *                   example: 123456789
+ *                 stripePaymentId:
+ *                   type: string
+ *                   example: pi_1ABCDefghijkLmnoP
+ *       500:
+ *         description: Server error or validation failure
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Recharge failed
+ *                 error:
+ *                   type: string
+ *                   example: Missing required fields
+ */
+router.post('/create-payment-intent', createStripeIntent)
 
 
 

@@ -7,6 +7,9 @@ import CreditTransfer from "./Pages/CreditTransfer";
 import Packages from "./Pages/Packages";
 import Operators from "./Pages/Operators";
 import HowToPay from "./Pages/HowToPay";
+import Payment from "./Pages/Payment";
+import Success from "./Pages/Success";
+import Checkout from "./Pages/Checkout";
 
 function App() {
 
@@ -20,6 +23,9 @@ function App() {
         <Route path="/packages/:pkg" element={<Packages />} />
         <Route path="/operators/:opt" element={<Operators />} />
         <Route path="/how-to-pay" element={<HowToPay />} />
+        <Route path="/payment/checkout" element={<Checkout />} />
+        <Route path="/payment" element={<Payment />} />
+        <Route path="/success" element={<Success />} />
         <Route path="*" element={<Home />} />
       </Routes>
       <Footer />
