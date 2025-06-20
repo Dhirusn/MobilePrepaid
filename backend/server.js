@@ -13,6 +13,7 @@ import adminRoutes from './routes/admin.js';
 import reloadlyRoutes from './routes/reloadly.js';
 import topupRoutes from './routes/topup.js';
 import transferRoutes from './routes/transfer.js';
+import stripewebhook from './routes/stripewebhook.js';
 import errorMiddleware from './middlewares/error.js'
 
 process.on("uncaughtException", (err) => {
@@ -31,6 +32,10 @@ app.use(cors({
     origin: '*', // or specify your frontend origin like 'http://localhost:3000'
     credentials: true
 }));
+
+
+// ⛔ DO NOT use express.json() before the webhook route
+app.use('/api/webhooks', stripewebhook); // <-- This uses express.raw()
 
 app.use(express.json());
 
