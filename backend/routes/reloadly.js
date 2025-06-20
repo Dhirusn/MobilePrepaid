@@ -317,9 +317,10 @@ router.post('/checkout', async (req, res) => {
 // ✅ Use express.raw() for this route ONLY
 router.post('/webhooks/stripe', express.raw({ type: 'application/json' }), async (req, res) => {
   const sig = req.headers['stripe-signature'];
-
+  console.log("stripe-signature", sig)
   let event;
   try {
+    console.log("STRIPE_WEBHOOK_SECRET", process.env.STRIPE_WEBHOOK_SECRET)
     event = stripe.webhooks.constructEvent(
       req.body,
       sig,
