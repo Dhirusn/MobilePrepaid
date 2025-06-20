@@ -138,7 +138,7 @@ export async function rechargeMobile(mobileNumber, amount, currency,countryCode)
 
         const headers = {
             Authorization: `Bearer ${accessToken}`,
-            Accept: 'application/json',
+            Accept: 'application/com.reloadly.topups-v1+json',
             'Content-Type': 'application/json'
         };
       //  const operatorId = await getOperatorId(mobileNumber, countryCode); // ✅ fetch dynamically
