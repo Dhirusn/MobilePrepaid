@@ -144,7 +144,7 @@ export async function rechargeMobile(mobileNumber, amount, currency,countryCode)
       //  const operatorId = await getOperatorId(mobileNumber, countryCode); // ✅ fetch dynamically
      //   console.log(operatorId);
         const payload = {
-            operatorId: 1100,  // You need to get this based on country & number
+            operatorId: 200,  // You need to get this based on country & number
             amount: parseFloat(amount),
             currency: currency,
             useLocalAmount: true,
