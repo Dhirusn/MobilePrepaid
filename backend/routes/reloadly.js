@@ -210,6 +210,9 @@ router.post('/recharge', rechargeMobile);
  *                 type: string
  *                 description: Mobile number to be recharged
  *                 example: "+919876543210"
+ *               operatorId:
+ *                 type: number
+ *                 example: 200
  *     responses:
  *       200:
  *         description: Checkout session created successfully
@@ -233,7 +236,7 @@ router.post('/recharge', rechargeMobile);
  *                   example: Unable to create checkout session
  */
 router.post('/checkout', async (req, res) => {
-  const { amount, currency, mobileNumber } = req.body;
+  const { amount, currency, mobileNumber, operatorId } = req.body;
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -256,6 +259,7 @@ router.post('/checkout', async (req, res) => {
         mobileNumber,
         amount,
         currency,
+        operatorId
       },
     });
 
