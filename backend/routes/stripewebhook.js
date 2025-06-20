@@ -92,9 +92,11 @@ router.post('/stripe', express.raw({ type: 'application/json' }), async (req, re
         const mobileNumber = session.metadata.mobileNumber;
         const amount = session.metadata.amount;
         const currency = session.metadata.currency;
+        // Get country code safely (with optional chaining in case customer_details is null)
+        const countryCode = session.customer_details?.address?.country;
 
         try {
-            await rechargeMobile(mobileNumber, amount, currency);
+            await rechargeMobile(mobileNumber, amount, currency, countryCode);
             console.log('✅ Recharge successful for:', mobileNumber);
         } catch (err) {
             console.error('❌ Recharge failed:', err);
@@ -130,7 +132,7 @@ async function getReloadlyAccessToken() {
 }
 
 // ✅ Actual mobile recharge function using Reloadly API
-export async function rechargeMobile(mobileNumber, amount, currency) {
+export async function rechargeMobile(mobileNumber, amount, currency,countryCode) {
     try {
         const accessToken = await getReloadlyAccessToken();
 
@@ -144,6 +146,7 @@ export async function rechargeMobile(mobileNumber, amount, currency) {
         const payload = {
             operatorId: operatorId,  // You need to get this based on country & number
             amount: parseFloat(amount),
+            currency: currency,
             useLocalAmount: true,
             customIdentifier: `TopUp-${Date.now()}`,
             recipientPhone: {
