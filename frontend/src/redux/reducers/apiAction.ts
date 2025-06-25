@@ -45,12 +45,12 @@ export const fetchOperatorAsync = createAsyncThunk(
 
 
 
-export const getStripePaymentIntentAsync = createAsyncThunk(
+export const checkoutStripePaymentAsync = createAsyncThunk(
     'create/PaymentIntent',
-    async ({ currency, amount }: { currency: string, amount: number }, { rejectWithValue }) => {
+    async ({ currency, amount, mobNum, opId }: { currency: string, amount: number, mobNum: string, opId: number }, { rejectWithValue }) => {
         try {
-            const { data } = await axios.post(`${server}/api/reloadly/create-payment-intent`, {
-                currency, amount
+            const { data } = await axios.post(`${server}/api/reloadly/checkout`, {
+                currency, amount: amount , mobileNumber: mobNum, operatorId: opId
             }, {
                 headers: {
                     'Content-Type': 'application/json'

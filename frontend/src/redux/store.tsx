@@ -12,4 +12,5 @@ export const store = () => configureStore({
 export type AppStore = ReturnType<typeof store>;
 export type RootState = ReturnType<AppStore['getState']>;
 export type AppDispatch = AppStore['dispatch'];
-export const server = "http://localhost:5000";
+export const server1 = "http://localhost:5000";
+export const server = "https://mobile-prepaid-backend.vercel.app"

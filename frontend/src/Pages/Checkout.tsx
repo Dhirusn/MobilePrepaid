@@ -1,13 +1,34 @@
-import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../lib/hook"
+// import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../lib/hook"
 import type { RootState } from "../redux/store"
+import { checkoutStripePaymentAsync } from "../redux/reducers/apiAction";
 
 const Checkout = () => {
-    const { moileNum, rechargeAmt, operatorName } = useAppSelector((x: RootState) => x.rechargeSlice);
-    const navigate = useNavigate();
+    const { moileNum, rechargeAmt, operatorName, rechargeCurr, operatorId } = useAppSelector((x: RootState) => x.rechargeSlice);
+    const { loading } = useAppSelector((x: RootState) => x.reloadlySlice);
+    // const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
-    const handlePayment = () => {
-        navigate("/payment")
+    const handlePayment = async () => {
+        try {
+
+            const dispatchAction = await dispatch(checkoutStripePaymentAsync({
+                amount: rechargeAmt!,
+                currency: rechargeCurr,
+                mobNum: moileNum!,
+                opId: operatorId!
+            })
+            )
+            const response = dispatchAction.payload;
+            if (response && response.url) {
+                window.open(response.url, "_blank")
+            } else {
+                console.log("no url return from stripe payment response")
+            }
+        } catch (error) {
+            console.log(error)
+        }
+        // navigate("/payment")
     }
     return (
         <>
@@ -29,9 +50,36 @@ const Checkout = () => {
                             <label className="flex items-center gap-2 cursor-pointer">
                                 <input type="checkbox" /><span>I want a company invoice.</span></label>
                         </div>
-                        <button onClick={handlePayment} className="bg-gradient-to-r from-orange-400 to-red-500 text-white px-6 py-3 rounded-md font-semibold">
+                        {/* <button onClick={handlePayment} className="bg-gradient-to-r from-orange-400 to-red-500 text-white px-6 py-3 rounded-md font-semibold">
                             Continue to payment
+                        </button> */}
+                        <button
+                            onClick={handlePayment}
+                            className="bg-gradient-to-r from-orange-400 to-red-500 text-white px-6 py-3 rounded-md font-semibold flex items-center justify-center min-w-[180px]"
+                            disabled={loading}
+                        >
+                            {loading ? (
+                                <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
+                                    <circle
+                                        className="opacity-25"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        strokeWidth="4"
+                                        fill="none"
+                                    />
+                                    <path
+                                        className="opacity-75"
+                                        fill="currentColor"
+                                        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                                    />
+                                </svg>
+                            ) : (
+                                'Continue to payment'
+                            )}
                         </button>
+
                     </div>
 
                     <div className="space-y-6 col-span-2 p-12">

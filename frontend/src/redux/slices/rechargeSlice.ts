@@ -3,14 +3,18 @@ import type { PayloadAction } from "@reduxjs/toolkit"
 
 export interface RechargeState {
     rechargeAmt: number | null
-    moileNum: string | number | null
+    moileNum: string | null
     operatorName: string
+    rechargeCurr: string
+    operatorId: number | null
 }
 
 const initialState: RechargeState = {
     rechargeAmt: null,
     moileNum: null,
-    operatorName: ''
+    operatorName: '',
+    rechargeCurr: '',
+    operatorId: null
 }
 export const rechargeSlice = createSlice({
     name: "recharge",
@@ -24,10 +28,16 @@ export const rechargeSlice = createSlice({
         },
         setOperatorName: (state, action: PayloadAction<string>) => {
             state.operatorName = action.payload
+        },
+        setRechargeCurrency: (state, action: PayloadAction<string>) => {
+            state.rechargeCurr = action.payload
+        },
+        setOperatorId: (state, action: PayloadAction<number>) => {
+            state.operatorId = action.payload
         }
     }
 });
 
 
-export const { setAmount, setMobileNum, setOperatorName } = rechargeSlice.actions;
+export const { setAmount, setMobileNum, setOperatorName, setRechargeCurrency, setOperatorId } = rechargeSlice.actions;
 export default rechargeSlice.reducer

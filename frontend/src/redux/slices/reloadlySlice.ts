@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchCountriesAsync, fetchOperatorAsync, getStripePaymentIntentAsync } from "../reducers/apiAction";
+import { fetchCountriesAsync, fetchOperatorAsync, checkoutStripePaymentAsync } from "../reducers/apiAction";
 import type { IOperatorType } from "../interfaces/operatorType";
 
 export interface Country {
@@ -55,13 +55,13 @@ const reloadlySlice = createSlice({
             state.loading = false;
             state.operators = action.payload as any
         })
-        builder.addCase(getStripePaymentIntentAsync.pending, (state) => {
+        builder.addCase(checkoutStripePaymentAsync.pending, (state) => {
             state.loading = true;
             state.error = null
-        }).addCase(getStripePaymentIntentAsync.rejected, (state, action) => {
+        }).addCase(checkoutStripePaymentAsync.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload as string || "unable to procedd payment"
-        }).addCase(getStripePaymentIntentAsync.fulfilled, (state, action) => {
+        }).addCase(checkoutStripePaymentAsync.fulfilled, (state, action) => {
             state.loading = false;
             state.intentId = action.payload
         })

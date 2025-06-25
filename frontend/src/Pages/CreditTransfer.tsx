@@ -5,7 +5,7 @@ import { fetchCountriesAsync, fetchOperatorAsync } from "../redux/reducers/apiAc
 import type { RootState } from "../redux/store";
 import type { Country } from "../redux/slices/reloadlySlice";
 import type { IGeographicalRechargePlan, IOperatorType } from "../redux/interfaces/operatorType";
-import { setMobileNum, setAmount, setOperatorName } from "../redux/slices/rechargeSlice";
+import { setMobileNum, setAmount, setOperatorName, setRechargeCurrency, setOperatorId } from "../redux/slices/rechargeSlice";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
 
@@ -100,7 +100,12 @@ const CreditTransfer = () => {
                                             {operators.map((op) => (
                                                 <button
                                                     key={op.id}
-                                                    onClick={() => { setOperator(op); dispatch(setOperatorName(op.name)) }}
+                                                    onClick={() => {
+                                                        setOperator(op);
+                                                        dispatch(setOperatorName(op.name));
+                                                        dispatch(setRechargeCurrency(op.senderCurrencyCode));
+                                                        dispatch(setOperatorId(op.id))
+                                                    }}
                                                     className={`p-2 md:p-4 border  rounded ${operator === op ? 'bg-blue-500 text-white' : 'bg-gray-100'
                                                         }`}
                                                 >
@@ -146,23 +151,49 @@ const CreditTransfer = () => {
                 {
                     operator && (
                         <>
-                            <div className="text-black">
-                                <label className="block mb-1 font-medium">Geolocation</label>
-                                <select
-                                    value={geoLocation?.locationName}
-                                    onChange={handleGeolocationChange}
-                                    className="w-full border border-gray-300 rounded px-3 py-2"
-                                >
+                            {
+                                operator && operator.geographicalRechargePlans.length > 0 && (
+                                    <div className="text-black">
+                                        <label className="block mb-1 font-medium">Geolocation</label>
+                                        <select
+                                            value={geoLocation?.locationName}
+                                            onChange={handleGeolocationChange}
+                                            className="w-full border border-gray-300 rounded px-3 py-2"
+                                        >
 
-                                    <option value="">Select Geolocation</option>
-                                    {operator.geographicalRechargePlans.map((c) => (
-                                        <option className="text-black" key={c.locationCode} value={c.locationName}>
-                                            {c.locationName}
-                                        </option>
-                                    ))}
+                                            <option value="">Select Geolocation</option>
+                                            {operator.geographicalRechargePlans.map((c) => (
+                                                <option className="text-black" key={c.locationCode} value={c.locationName}>
+                                                    {c.locationName}
+                                                </option>
+                                            ))}
 
-                                </select>
-                            </div>
+                                        </select>
+                                    </div>
+                                )
+                            }
+                            {
+                                geoLocation && geoLocation.fixedAmounts.length > 0 && (
+                                    <div>
+                                        <label className="block mb-1 font-medium">Amount</label>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 mt-2">
+                                            {geoLocation && geoLocation.fixedAmounts.map((item, index) => (
+                                                <button
+                                                    key={index}
+                                                    onClick={() => setAmt(item)}
+                                                    className={`border p-3 rounded text-left border-gray-300 opacity-70 ${item === amt ? 'bg-blue-100 border-blue-500' : 'bg-gray-50'
+                                                        }`}
+                                                >
+                                                    <div className="text-sm text-blue-600 font-medium">Amount received: {item}</div>
+                                                    <div className="text-xs text-gray-500">incl. local taxes {item} Net</div>
+                                                    <div className="text-xs text-gray-600 mt-1">Amount charged: {item}</div>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )
+                            }
+
                             <div>
                                 <label className="block mb-1 font-medium">Phone Number</label>
                                 <input
@@ -173,23 +204,29 @@ const CreditTransfer = () => {
                                     className="w-full border border-gray-300 rounded px-3 py-2 md:w-64 p-2 mt-1"
                                 />
                             </div>
-                            <div>
-                                <label className="block mb-1 font-medium">Amount</label>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 mt-2">
-                                    {geoLocation && geoLocation.fixedAmounts.map((item, index) => (
-                                        <button
-                                            key={index}
-                                            onClick={() => setAmt(item)}
-                                            className={`border p-3 rounded text-left border-gray-300 opacity-70 ${item === amt ? 'bg-blue-100 border-blue-500' : 'bg-gray-50'
-                                                }`}
-                                        >
-                                            <div className="text-sm text-blue-600 font-medium">Amount received: {item}</div>
-                                            <div className="text-xs text-gray-500">incl. local taxes {item} Net</div>
-                                            <div className="text-xs text-gray-600 mt-1">Amount charged: {item}</div>
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
+
+                            {
+                                operator && operator.fixedAmounts.length > 0 && (
+                                    <div>
+                                        <label className="block mb-1 font-medium">Amount</label>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 mt-2">
+                                            {operator && operator.fixedAmounts.map((item, index) => (
+                                                <button
+                                                    key={index}
+                                                    onClick={() => setAmt(item)}
+                                                    className={`border p-3 rounded text-left border-gray-300 opacity-70 ${item === amt ? 'bg-blue-100 border-blue-500' : 'bg-gray-50'
+                                                        }`}
+                                                >
+                                                    <div className="text-sm text-blue-600 font-medium">Amount received: {item}</div>
+                                                    <div className="text-xs text-gray-500">incl. local taxes {item} Net</div>
+                                                    <div className="text-xs text-gray-600 mt-1">Amount charged: {item}</div>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )
+                            }
+
                         </>
                     )
                 }
